@@ -6,18 +6,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 #print(sns.__version__)
 
-# x = [10, 20, 30, 40]
-# y = [0, 15, 10, 25]
-# sns.set_style("ticks")
-# plt.plot(x, y)
-# plt.show()
-
-cars = sns.load_dataset('mpg')
-print(type(cars))  # panda.core.frame.DataFrame
-cars.dropna(inplace=True)
+cars = sns.load_dataset('mpg').dropna()
 print(cars.shape)
 print(cars.head())
 
-sns.relplot(x='model_year', y='mpg', col='origin', hue='cylinders', data=cars)
+# `shade_lowest` has been replaced by `thresh`
+sns.kdeplot(x='horsepower', y='mpg', data=cars,
+            fill=True,
+            thresh=0.05,
+            cbar=True)
+# sns.kdeplot(cars.horsepower, fill=True, bw_method=.1, cumulative=True)
 plt.show()
 

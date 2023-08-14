@@ -40,16 +40,27 @@ sns.set_style('whitegrid')
 cars = cars[cars.cylinders.isin([4, 6, 8])]
 print(cars.cylinders.value_counts())  # how many of each value
 # sns.boxplot(x=cars.origin, y=cars.mpg)
-cars['newer_model'] = cars.model_year > 76
-sns.boxplot(x='horsepower', y='origin', hue='newer_model',
-            hue_order=[True, False],
-            color='g',  # box color
-            width=0.5,  # box width
-            linewidth=0.5,  # whisker width
-            whis=1,  # whisker length
-            fliersize=2,  # outlier diamonds
-            showcaps=False,  # caps on top of whiskers
-            data=cars)
-print(cars.mpg.describe())
+# cars['newer_model'] = cars.model_year > 76
+# sns.boxplot(x='horsepower', y='origin', hue='newer_model',
+#             hue_order=[True, False],
+#             color='g',  # box color
+#             width=0.5,  # box width
+#             linewidth=0.5,  # whisker width
+#             whis=1,  # whisker length
+#             fliersize=2,  # outlier diamonds
+#             showcaps=False,  # caps on top of whiskers
+#             data=cars)
+# print(cars.mpg.describe())
+
+# lesson 6 violinplot
+sns.violinplot(y='displacement', x='cylinders', hue='origin',
+               split=True,
+               inner='quartiles',
+               scale='count',
+               scale_hue=False,
+               data=cars[cars.origin.isin(['japan', 'europe'])]),
+
 plt.show()
 
+print(cars[cars.origin.isin(['japan', 'europe'])].
+      groupby('cylinders').origin.value_counts())

@@ -15,7 +15,7 @@ print(cars.head())
 # # `shade_lowest` has been replaced by `thresh`
 # sns.kdeplot(x='horsepower', y='mpg', data=cars,
 #             fill=True,
-#             thresh=0.05,
+#             thresh=0.05,  # thresh =
 #             cbar=True)
 # sns.kdeplot(cars.horsepower, fill=True, bw_method=.1, cumulative=True)
 
@@ -40,7 +40,7 @@ sns.set_style('whitegrid')
 cars = cars[cars.cylinders.isin([4, 6, 8])]
 print(cars.cylinders.value_counts())  # how many of each value
 # sns.boxplot(x=cars.origin, y=cars.mpg)
-# cars['newer_model'] = cars.model_year > 76
+# cars['newer_model'] = cars.model_year > 76  # new user defined category
 # sns.boxplot(x='horsepower', y='origin', hue='newer_model',
 #             hue_order=[True, False],
 #             color='g',  # box color
@@ -52,15 +52,43 @@ print(cars.cylinders.value_counts())  # how many of each value
 #             data=cars)
 # print(cars.mpg.describe())
 
-# lesson 6 violinplot
-sns.violinplot(y='displacement', x='cylinders', hue='origin',
-               split=True,
-               inner='quartiles',
-               scale='count',
-               scale_hue=False,
-               data=cars[cars.origin.isin(['japan', 'europe'])]),
+# # lesson 6 violinplot
+# sns.violinplot(y='displacement', x='cylinders', hue='origin',
+#                split=True,
+#                inner='quartiles',
+#                scale='count',
+#                scale_hue=False,
+#                data=cars[cars.origin.isin(['japan', 'europe'])]),
+#
+# print(cars[cars.origin.isin(['japan', 'europe'])].
+#       groupby('cylinders').origin.value_counts())
+
+# lesson 7 swarmplot
+usa = cars[cars.origin == 'usa']
+
+# Define a custom color palette to match Set2 colors
+custom_palette = sns.color_palette("Set2", n_colors=len(cars["cylinders"].unique()))
+
+# Create a boxplot with the custom palette
+# sns.boxplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
+sns.violinplot(x='cylinders', y='horsepower', data=cars,
+               inner=None,  # turns off box plot
+               scale='width',
+               palette=custom_palette)
+
+# # Create a swarmplot with the same custom palette
+# sns.swarmplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
+#
+
+# Create a swarmplot with black dots to see them better
+sns.swarmplot(x='cylinders', y='horsepower',
+              # color='black',
+              linewidth=1,  # black line around each dot
+              edgecolor='black',  # color of line around dot, default = gray
+              marker='*',  # matplot marker styles
+              alpha=.25,  # transparency
+              data=cars)
+
 
 plt.show()
 
-print(cars[cars.origin.isin(['japan', 'europe'])].
-      groupby('cylinders').origin.value_counts())

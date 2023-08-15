@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 #print(sns.__version__)
 import pandas as pd
+from ipywidgets import interactive
 
 # lesson 2
 cars = sns.load_dataset('mpg').dropna()
@@ -63,31 +64,43 @@ print(cars.cylinders.value_counts())  # how many of each value
 # print(cars[cars.origin.isin(['japan', 'europe'])].
 #       groupby('cylinders').origin.value_counts())
 
-# lesson 7 swarmplot
-usa = cars[cars.origin == 'usa']
-
-# Define a custom color palette to match Set2 colors
-custom_palette = sns.color_palette("Set2", n_colors=len(cars["cylinders"].unique()))
-
-# Create a boxplot with the custom palette
-# sns.boxplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
-sns.violinplot(x='cylinders', y='horsepower', data=cars,
-               inner=None,  # turns off box plot
-               scale='width',
-               palette=custom_palette)
-
-# # Create a swarmplot with the same custom palette
-# sns.swarmplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
+# # lesson 7 swarmplot
+# usa = cars[cars.origin == 'usa']
 #
+# # Define a custom color palette to match Set2 colors
+# custom_palette = sns.color_palette("Set2", n_colors=len(cars["cylinders"].unique()))
+#
+# # Create a boxplot with the custom palette
+# # sns.boxplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
+# sns.violinplot(x='cylinders', y='horsepower', data=cars,
+#                inner=None,  # turns off box plot
+#                scale='width',
+#                palette=custom_palette)
+#
+# # # Create a swarmplot with the same custom palette
+# # sns.swarmplot(x='cylinders', y='horsepower', data=cars, palette=custom_palette)
+# #
+#
+# # Create a swarmplot with black dots to see them better
+# sns.swarmplot(x='cylinders', y='horsepower',
+#               # color='black',
+#               linewidth=1,  # black line around each dot
+#               edgecolor='black',  # color of line around dot, default = gray
+#               marker='*',  # matplot marker styles
+#               alpha=.25,  # transparency
+#               data=cars)
 
-# Create a swarmplot with black dots to see them better
-sns.swarmplot(x='cylinders', y='horsepower',
-              # color='black',
-              linewidth=1,  # black line around each dot
-              edgecolor='black',  # color of line around dot, default = gray
-              marker='*',  # matplot marker styles
-              alpha=.25,  # transparency
-              data=cars)
+# lesson 8 stripplot
+custom_palette = sns.color_palette("Set2", n_colors=len(cars["origin"].unique()))
+
+
+def jitter_widget(jitter=0.1):
+    sns.stripplot(x='weight', y='origin', palette=custom_palette[::-1], hue='cylinders', dodge=True, jitter=jitter, data=cars)
+
+
+interactive(jitter_widget, jitter=(0, .65, .05))
+
+
 
 
 plt.show()
